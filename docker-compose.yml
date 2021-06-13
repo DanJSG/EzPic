@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+#    images:
+#        build: .
+#        ports:
+#            - "8080:8080"
+#        networks:
+#            - primary
+
+    localstack:
+        image: localstack/localstack:latest
+        container_name: localstack_s3
+        ports:
+            - '4566-4583:4566-4583'
+        environment:
+            - EDGE_PORT=4566
+            - SERVICES=s3
+            - DEBUG=1
+        volumes:
+            - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
+            - "/var/run/docker.sock:/var/run/docker.sock"
+        networks:
+            - primary
+
+networks:
+    primary:
+        driver: bridge
+
+volumes:
+    db-data:
