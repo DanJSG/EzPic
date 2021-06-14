@@ -1,9 +1,7 @@
 package org.ezlibs.imageserver.services;
 
 import org.apache.commons.io.FilenameUtils;
-import org.ezlibs.imageserver.imageprocessing.PresetImageProcessor;
-import org.ezlibs.imageserver.imageprocessing.JPEGPresetImageProcessor;
-import org.ezlibs.imageserver.imageprocessing.Presets;
+import org.ezlibs.imageserver.imageprocessing.*;
 import org.ezlibs.imageserver.types.StorageService;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,10 +11,9 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
 public class ImageService {
 
@@ -27,27 +24,42 @@ public class ImageService {
         return VALID_EXTENSIONS.stream().anyMatch(currentExtension -> currentExtension.equals(fileExtension));
     }
 
-    public static boolean storeImage(MultipartFile image, String preset) {
-        StorageService storageService = new S3Service();
-        Path path = Paths.get(Objects.requireNonNull(image.getOriginalFilename()));
+    public static List<String> storeImage(MultipartFile image, String presetName) {
+        Preset preset = Presets.getPreset(presetName.toLowerCase());
         PresetImageProcessor imageProcessor = new JPEGPresetImageProcessor();
         BufferedImage bufferedImage = convertMultipartFileToBufferedImage(image);
-        if (bufferedImage == null) return false;
+        if (bufferedImage == null) return null;
         try {
-            List<byte[]> processedImagesBytes = imageProcessor.processImage(bufferedImage, Presets.getPreset(preset));
-            for (byte[] processedImageBytes : processedImagesBytes) {
-                storageService.upload(processedImageBytes, path.toString(), getMediaType(Objects.requireNonNull(image.getContentType())));
-            }
-            return true;
+            List<byte[]> processedImagesBytes = imageProcessor.processImage(bufferedImage, Presets.getPreset(presetName));
+            return uploadImages(processedImagesBytes, preset.getResizeDimensions(), image.getContentType());
         } catch (IOException ioException) {
             ioException.printStackTrace();
-            return false;
+            return null;
         }
     }
 
     public static byte[] getImage(String filepath) {
         StorageService storageService = new S3Service();
         return storageService.download(filepath);
+    }
+
+    private static List<String> uploadImages(List<byte[]> imageBytesList, List<Dimensions> dimensionsList, String contentType) {
+        StorageService storageService = new S3Service();
+        UUID imageName = UUID.randomUUID();
+        List<String> filenames = new ArrayList<>();
+        String filename;
+        System.out.println(imageBytesList.size());
+        for(int i = 0; i < imageBytesList.size(); i++) {
+            byte[] imageBytes = imageBytesList.get(i);
+            if (dimensionsList != null) {
+                filename = imageName + "-" + dimensionsList.get(i).getLabel() + ".jpg";
+            } else {
+                filename = imageName + ".jpg";
+            }
+            filenames.add(filename);
+            storageService.upload(imageBytes, filename, getMediaType(contentType));
+        }
+        return filenames;
     }
 
     private static MediaType getMediaType(String contentType) {

@@ -4,10 +4,12 @@ public class Dimensions {
 
     private final int width;
     private final int height;
+    private final String label;
 
-    public Dimensions(int width, int height) {
+    public Dimensions(int width, int height, String label) {
         this.width = width;
         this.height = height;
+        this.label = label;
     }
 
     public int getHeight() {
@@ -18,11 +20,8 @@ public class Dimensions {
         return width;
     }
 
-    public int getSmallestDimension() {
-        return Math.min(width, height);
+    public String getLabel() {
+        return label;
     }
 
-    public int getLargestDimension() {
-        return Math.max(width, height);
-    }
 }

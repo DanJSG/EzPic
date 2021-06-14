@@ -84,12 +84,16 @@ public class JPEGPresetImageProcessor implements PresetImageProcessor {
 
     @Override
     public BufferedImage cropImage(BufferedImage image, float xRatio, float yRatio) {
-        int ratioSum = (int) (xRatio + yRatio);
         int width = image.getWidth();
         int height = image.getHeight();
-        int newWidth = (int) (width / ((width / ratioSum) * xRatio));
-        int newHeight = (int) (height / ((height / ratioSum) * yRatio));
-        return cropImage(image, newWidth, newHeight);
+        float aspectRatioQuotient = xRatio / yRatio;
+        if (aspectRatioQuotient > 1 || (aspectRatioQuotient == 1 && width < height)) {
+            int newHeight = (int)(width / aspectRatioQuotient);
+            return cropImage(image, width, newHeight);
+        } else {
+            int newWidth = (int)(height * aspectRatioQuotient);
+            return cropImage(image, newWidth, height);
+        }
     }
 
 }

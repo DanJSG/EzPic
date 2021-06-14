@@ -1,5 +1,8 @@
 package org.ezlibs.imageserver.controllers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ezlibs.imageserver.services.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -7,16 +10,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/")
 public class ImageController {
 
-    @PostMapping(value = "/image")
+    private static final class FilenamesJsonResponse {
+        @JsonProperty
+        final List<String> filenames;
+        public FilenamesJsonResponse(List<String> filenames) {
+            this.filenames = filenames;
+        }
+        public String writeValueAsString() {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                return mapper.writeValueAsString(this);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    @PostMapping(value = "/image", produces = MediaType.APPLICATION_JSON_VALUE)
     public static ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile image, @RequestParam(required = false) String preset) {
         boolean isValid = ImageService.checkImageExtension(image);
         if (!isValid) return ResponseEntity.badRequest().body("Wrong file type. Only '.png', '.jpg', and '.jpeg' are accepted.");
-        boolean uploadSuccess = ImageService.storeImage(image, preset);
-        return uploadSuccess ? ResponseEntity.status(HttpStatus.NO_CONTENT).body(null) : ResponseEntity.internalServerError().body(null);
+        List<String> imageNames = ImageService.storeImage(image, preset);
+        if (imageNames == null) return ResponseEntity.internalServerError().body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(new FilenamesJsonResponse(imageNames).writeValueAsString());
     }
 
     @GetMapping(value = "/image/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
