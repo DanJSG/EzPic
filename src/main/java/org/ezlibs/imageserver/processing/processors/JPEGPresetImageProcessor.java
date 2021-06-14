@@ -1,4 +1,8 @@
-package org.ezlibs.imageserver.processing;
+package org.ezlibs.imageserver.processing.processors;
+
+import org.ezlibs.imageserver.processing.types.Dimensions;
+import org.ezlibs.imageserver.processing.types.Preset;
+import org.ezlibs.imageserver.processing.types.Ratio;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;

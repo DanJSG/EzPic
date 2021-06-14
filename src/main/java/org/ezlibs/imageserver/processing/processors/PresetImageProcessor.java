@@ -1,4 +1,6 @@
-package org.ezlibs.imageserver.processing;
+package org.ezlibs.imageserver.processing.processors;
+
+import org.ezlibs.imageserver.processing.types.Preset;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

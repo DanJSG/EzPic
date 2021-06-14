@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver.processing;
+package org.ezlibs.imageserver.processing.types;
 
 public class Dimensions {
 

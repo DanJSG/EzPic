@@ -1,7 +1,11 @@
 package org.ezlibs.imageserver.services;
 
 import org.apache.commons.io.FilenameUtils;
-import org.ezlibs.imageserver.processing.*;
+import org.ezlibs.imageserver.processing.constants.Presets;
+import org.ezlibs.imageserver.processing.processors.JPEGPresetImageProcessor;
+import org.ezlibs.imageserver.processing.processors.PresetImageProcessor;
+import org.ezlibs.imageserver.processing.types.Dimensions;
+import org.ezlibs.imageserver.processing.types.Preset;
 import org.ezlibs.imageserver.types.StorageService;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
