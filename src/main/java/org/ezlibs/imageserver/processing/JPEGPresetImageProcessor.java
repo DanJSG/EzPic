@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver.imageprocessing;
+package org.ezlibs.imageserver.processing;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -71,7 +71,7 @@ public class JPEGPresetImageProcessor implements PresetImageProcessor {
     }
 
     @Override
-    public BufferedImage cropImage(BufferedImage image, int newWidth, int newHeight) {
+    public BufferedImage cropImage(BufferedImage image, int newWidth, int newHeight) throws IllegalArgumentException {
         int oldWidth = image.getWidth();
         int oldHeight = image.getHeight();
         if (newWidth > oldWidth || newHeight > oldHeight) {
@@ -83,7 +83,7 @@ public class JPEGPresetImageProcessor implements PresetImageProcessor {
     }
 
     @Override
-    public BufferedImage cropImage(BufferedImage image, float xRatio, float yRatio) {
+    public BufferedImage cropImage(BufferedImage image, float xRatio, float yRatio) throws IllegalArgumentException {
         int width = image.getWidth();
         int height = image.getHeight();
         float aspectRatioQuotient = xRatio / yRatio;

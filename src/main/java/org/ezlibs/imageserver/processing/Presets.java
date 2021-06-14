@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver.imageprocessing;
+package org.ezlibs.imageserver.processing;
 
 import java.util.HashMap;
 import java.util.List;

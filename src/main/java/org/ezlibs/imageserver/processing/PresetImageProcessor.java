@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver.imageprocessing;
+package org.ezlibs.imageserver.processing;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,8 +14,8 @@ public interface PresetImageProcessor {
 
     BufferedImage rescaleImage(BufferedImage image, int width, int height);
 
-    BufferedImage cropImage(BufferedImage image, int newWidth, int newHeight);
+    BufferedImage cropImage(BufferedImage image, int newWidth, int newHeight) throws IllegalArgumentException;
 
-    BufferedImage cropImage(BufferedImage image, float xRatio, float yRatio);
+    BufferedImage cropImage(BufferedImage image, float xRatio, float yRatio) throws IllegalArgumentException;
 
 }

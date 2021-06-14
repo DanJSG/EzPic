@@ -1,7 +1,7 @@
 package org.ezlibs.imageserver.services;
 
 import org.apache.commons.io.FilenameUtils;
-import org.ezlibs.imageserver.imageprocessing.*;
+import org.ezlibs.imageserver.processing.*;
 import org.ezlibs.imageserver.types.StorageService;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;

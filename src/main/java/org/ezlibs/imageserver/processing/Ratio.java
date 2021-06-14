@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver.imageprocessing;
+package org.ezlibs.imageserver.processing;
 
 public class Ratio {
 
