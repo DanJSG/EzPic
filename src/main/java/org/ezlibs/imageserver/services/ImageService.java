@@ -6,6 +6,7 @@ import org.ezlibs.imageserver.processing.processors.JPEGPresetImageProcessor;
 import org.ezlibs.imageserver.processing.processors.PresetImageProcessor;
 import org.ezlibs.imageserver.processing.types.Dimensions;
 import org.ezlibs.imageserver.processing.types.Preset;
+import org.ezlibs.imageserver.processing.types.Ratio;
 import org.ezlibs.imageserver.types.StorageService;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,12 +30,12 @@ public class ImageService {
     }
 
     public static List<String> storeImage(MultipartFile image, String presetName) {
-        Preset preset = Presets.getPreset(presetName.toLowerCase());
         PresetImageProcessor imageProcessor = new JPEGPresetImageProcessor();
         BufferedImage bufferedImage = convertMultipartFileToBufferedImage(image);
+        Preset preset = getPreset(bufferedImage, presetName);
         if (bufferedImage == null) return null;
         try {
-            List<byte[]> processedImagesBytes = imageProcessor.processImage(bufferedImage, Presets.getPreset(presetName));
+            List<byte[]> processedImagesBytes = imageProcessor.processImage(bufferedImage, preset);
             return uploadImages(processedImagesBytes, preset.getResizeDimensions(), image.getContentType());
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -74,6 +75,18 @@ public class ImageService {
             default:
                 return MediaType.IMAGE_PNG;
         }
+    }
+
+    private static Preset getPreset(BufferedImage image, String name) {
+        if (name != null) return Presets.getPreset(name.toLowerCase());
+        Dimensions originalDimensions = new Dimensions(image.getWidth(), image.getHeight(), "full");
+        Dimensions halvedDimensions = new Dimensions(image.getWidth() / 2, image.getHeight() / 2, "lg");
+        Dimensions quarteredDimensions = new Dimensions(image.getWidth() / 4, image.getHeight() / 4, "md");
+        Dimensions eightDimensions = new Dimensions(image.getWidth() / 8, image.getHeight() / 8, "sm");
+        Ratio aspectRatio = new Ratio(image.getWidth(), image.getHeight());
+        List<Dimensions> dimensionsList = List.of(originalDimensions, halvedDimensions, quarteredDimensions, eightDimensions);
+        List<Ratio> aspectRatioList = List.of(aspectRatio, aspectRatio, aspectRatio, aspectRatio);
+        return new Preset(true, true, 0.75f, dimensionsList, aspectRatioList);
     }
 
     private static BufferedImage convertMultipartFileToBufferedImage(MultipartFile image) {
