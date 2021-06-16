@@ -1,5 +1,5 @@
 # EzPic
-Simple server with a RESTful API for processing, uploading, and downloading images from AWS S3. Works using a small number of presets.
+Simple server with a RESTful API for processing, uploading, and downloading images from AWS S3. 
 
 ## Compiling & Running
 
