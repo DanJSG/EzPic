@@ -1,6 +1,6 @@
-package org.ezlibs.ezpics.storage.config;
+package org.ezlibs.ezpic.storage.config;
 
-import org.ezlibs.ezpics.storage.providers.S3ClientProvider;
+import org.ezlibs.ezpic.storage.providers.S3ClientProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

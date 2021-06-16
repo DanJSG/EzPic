@@ -1,9 +1,9 @@
-package org.ezlibs.ezpics.rest.controllers;
+package org.ezlibs.ezpic.rest.controllers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ezlibs.ezpics.rest.services.ImageService;
+import org.ezlibs.ezpic.rest.services.ImageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

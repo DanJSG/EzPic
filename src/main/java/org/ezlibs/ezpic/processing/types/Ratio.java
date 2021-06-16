@@ -1,4 +1,4 @@
-package org.ezlibs.ezpics.processing.types;
+package org.ezlibs.ezpic.processing.types;
 
 /**
  * An aspect ratio.

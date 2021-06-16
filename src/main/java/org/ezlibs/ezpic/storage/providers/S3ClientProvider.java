@@ -1,4 +1,4 @@
-package org.ezlibs.ezpics.storage.providers;
+package org.ezlibs.ezpic.storage.providers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

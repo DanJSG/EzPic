@@ -1,6 +1,6 @@
-package org.ezlibs.ezpics.storage.services;
+package org.ezlibs.ezpic.storage.services;
 
-import org.ezlibs.ezpics.storage.providers.S3ClientProvider;
+import org.ezlibs.ezpic.storage.providers.S3ClientProvider;
 import org.springframework.http.MediaType;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;

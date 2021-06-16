@@ -1,4 +1,4 @@
-package org.ezlibs.ezpics.rest.config;
+package org.ezlibs.ezpic.rest.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

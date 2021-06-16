@@ -1,4 +1,4 @@
-package org.ezlibs.ezpics.storage.services;
+package org.ezlibs.ezpic.storage.services;
 
 import org.springframework.http.MediaType;
 

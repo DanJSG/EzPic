@@ -1,8 +1,8 @@
-package org.ezlibs.ezpics.processing.constants;
+package org.ezlibs.ezpic.processing.constants;
 
-import org.ezlibs.ezpics.processing.types.Dimensions;
-import org.ezlibs.ezpics.processing.types.Preset;
-import org.ezlibs.ezpics.processing.types.Ratio;
+import org.ezlibs.ezpic.processing.types.Dimensions;
+import org.ezlibs.ezpic.processing.types.Preset;
+import org.ezlibs.ezpic.processing.types.Ratio;
 
 import java.util.HashMap;
 import java.util.List;
