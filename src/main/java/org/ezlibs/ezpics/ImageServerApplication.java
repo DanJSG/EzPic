@@ -1,6 +1,5 @@
-package org.ezlibs.imageserver;
+package org.ezlibs.ezpics;
 
-import org.ezlibs.imageserver.services.S3Service;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

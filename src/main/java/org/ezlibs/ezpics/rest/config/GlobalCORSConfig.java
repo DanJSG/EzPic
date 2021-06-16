@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver.config;
+package org.ezlibs.ezpics.rest.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

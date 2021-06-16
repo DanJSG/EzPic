@@ -1,13 +1,14 @@
-package org.ezlibs.imageserver.services;
+package org.ezlibs.ezpics.rest.services;
 
 import org.apache.commons.io.FilenameUtils;
-import org.ezlibs.imageserver.processing.constants.Presets;
-import org.ezlibs.imageserver.processing.processors.JPEGPresetImageProcessor;
-import org.ezlibs.imageserver.processing.processors.PresetImageProcessor;
-import org.ezlibs.imageserver.processing.types.Dimensions;
-import org.ezlibs.imageserver.processing.types.Preset;
-import org.ezlibs.imageserver.processing.types.Ratio;
-import org.ezlibs.imageserver.types.StorageService;
+import org.ezlibs.ezpics.processing.constants.Presets;
+import org.ezlibs.ezpics.processing.processors.JPEGPresetImageProcessor;
+import org.ezlibs.ezpics.processing.processors.PresetImageProcessor;
+import org.ezlibs.ezpics.processing.types.Dimensions;
+import org.ezlibs.ezpics.processing.types.Preset;
+import org.ezlibs.ezpics.processing.types.Ratio;
+import org.ezlibs.ezpics.storage.services.S3Service;
+import org.ezlibs.ezpics.storage.services.StorageService;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 

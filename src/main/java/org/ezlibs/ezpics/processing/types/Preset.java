@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver.processing.types;
+package org.ezlibs.ezpics.processing.types;
 
 import java.util.List;
 

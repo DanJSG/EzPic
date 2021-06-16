@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver;
+package org.ezlibs.ezpics;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

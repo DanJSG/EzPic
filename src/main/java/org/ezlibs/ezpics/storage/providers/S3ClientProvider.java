@@ -1,4 +1,4 @@
-package org.ezlibs.imageserver.providers;
+package org.ezlibs.ezpics.storage.providers;
 
 import software.amazon.awssdk.services.s3.S3Client;
 
