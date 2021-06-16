@@ -40,7 +40,7 @@
     </dependencies>
 
     <build>
-        <finalName>imageserver</finalName>
+        <finalName>ezpic</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
