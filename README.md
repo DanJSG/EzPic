@@ -30,3 +30,4 @@ Make a GET request to `/api/v1/{bucket}/image/{filename}` where `{bucket}` is th
 Always returns the image as a `.jpeg` file.
 
 ## License
+This repository is licensed under the [MIT License](/LICENSE).
