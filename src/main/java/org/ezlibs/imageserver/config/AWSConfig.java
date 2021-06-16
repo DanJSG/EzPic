@@ -10,15 +10,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AWSConfig {
 
-    private static final String BUCKET_NAME = "imageserver";
     private static final Logger LOGGER = LoggerFactory.getLogger(AWSConfig.class);
 
     @Autowired
     public AWSConfig() {
-        S3ClientProvider.configureS3Client("http://localhost:4566", BUCKET_NAME);
-        boolean created = S3Service.createBucket(BUCKET_NAME);
+        S3ClientProvider.configureS3Client("http://localhost:4566");
         LOGGER.info("Successfully configured AWS S3.");
-        if (created) LOGGER.info("Bucket with name '" + BUCKET_NAME + "' created.");
     }
 
 }

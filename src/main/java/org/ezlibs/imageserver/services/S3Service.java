@@ -31,21 +31,21 @@ public class S3Service implements StorageService {
         return success.get();
     }
 
-    public void upload(byte[] bytes, String filepath, MediaType mimeType) {
+    public void upload(byte[] bytes, String filename, String bucketName, MediaType mimeType) {
         S3Client s3 = S3ClientProvider.getS3Client();
         PutObjectRequest objectRequest = PutObjectRequest.builder()
-                .bucket(S3ClientProvider.getBucketName())
-                .key(filepath)
+                .bucket(bucketName)
+                .key(filename)
                 .contentType(mimeType.getType())
                 .build();
         s3.putObject(objectRequest, RequestBody.fromBytes(bytes));
     }
 
-    public byte[] download(String filepath) {
+    public byte[] download(String filename, String bucketName) {
         S3Client s3 = S3ClientProvider.getS3Client();
         GetObjectRequest objectRequest = GetObjectRequest.builder()
-                .bucket(S3ClientProvider.getBucketName())
-                .key(filepath)
+                .bucket(bucketName)
+                .key(filename)
                 .build();
         ResponseBytes<GetObjectResponse> s3ObjectResponse = s3.getObject(objectRequest, ResponseTransformer.toBytes());
         return s3ObjectResponse.asByteArray();

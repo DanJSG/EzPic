@@ -33,18 +33,18 @@ public class ImageController {
         }
     }
 
-    @PostMapping(value = "/image", produces = MediaType.APPLICATION_JSON_VALUE)
-    public static ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile image, @RequestParam(required = false) String preset) {
+    @PostMapping(value = "/{bucket}/image", produces = MediaType.APPLICATION_JSON_VALUE)
+    public static ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile image, @PathVariable String bucket, @RequestParam(required = false) String preset) {
         boolean isValid = ImageService.checkImageExtension(image);
         if (!isValid) return ResponseEntity.badRequest().body("Wrong file type. Only '.png', '.jpg', and '.jpeg' are accepted.");
-        List<String> imageNames = ImageService.storeImage(image, preset);
+        List<String> imageNames = ImageService.storeImage(image, preset, bucket);
         if (imageNames == null) return ResponseEntity.internalServerError().body(null);
         return ResponseEntity.status(HttpStatus.OK).body(new FilenamesJsonResponse(imageNames).writeValueAsString());
     }
 
-    @GetMapping(value = "/image/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public static @ResponseBody byte[] downloadImage(@PathVariable String filename) {
-        return ImageService.getImage(filename);
+    @GetMapping(value = "/{bucket}/image/{filename}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public static @ResponseBody byte[] downloadImage(@PathVariable String bucket, @PathVariable String filename) {
+        return ImageService.getImage(filename, bucket);
     }
 
 }

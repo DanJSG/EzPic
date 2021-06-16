@@ -29,26 +29,26 @@ public class ImageService {
         return VALID_EXTENSIONS.stream().anyMatch(currentExtension -> currentExtension.equals(fileExtension));
     }
 
-    public static List<String> storeImage(MultipartFile image, String presetName) {
+    public static List<String> storeImage(MultipartFile image, String presetName, String bucketName) {
         PresetImageProcessor imageProcessor = new JPEGPresetImageProcessor();
         BufferedImage bufferedImage = convertMultipartFileToBufferedImage(image);
         Preset preset = getPreset(bufferedImage, presetName);
         if (bufferedImage == null) return null;
         try {
             List<byte[]> processedImagesBytes = imageProcessor.processImage(bufferedImage, preset);
-            return uploadImages(processedImagesBytes, preset.getResizeDimensions(), image.getContentType());
+            return uploadImages(processedImagesBytes, preset.getResizeDimensions(), bucketName, image.getContentType());
         } catch (IOException ioException) {
             ioException.printStackTrace();
             return null;
         }
     }
 
-    public static byte[] getImage(String filepath) {
+    public static byte[] getImage(String filepath, String bucketName) {
         StorageService storageService = new S3Service();
-        return storageService.download(filepath);
+        return storageService.download(filepath, bucketName);
     }
 
-    private static List<String> uploadImages(List<byte[]> imageBytesList, List<Dimensions> dimensionsList, String contentType) {
+    private static List<String> uploadImages(List<byte[]> imageBytesList, List<Dimensions> dimensionsList, String bucketName, String contentType) {
         StorageService storageService = new S3Service();
         UUID imageName = UUID.randomUUID();
         List<String> filenames = new ArrayList<>();
@@ -62,7 +62,7 @@ public class ImageService {
                 filename = imageName + ".jpg";
             }
             filenames.add(filename);
-            storageService.upload(imageBytes, filename, getMediaType(contentType));
+            storageService.upload(imageBytes, filename, bucketName, getMediaType(contentType));
         }
         return filenames;
     }

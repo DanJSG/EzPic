@@ -11,10 +11,8 @@ public class S3ClientProvider {
             "Please call the configureClient() method before attempting to use any other methods in this class.";
     private static boolean configured = false;
     private static S3Client s3;
-    private static String bucketName;
 
-    public static boolean configureS3Client(String endpoint, String bucketName) {
-        S3ClientProvider.bucketName = bucketName;
+    public static boolean configureS3Client(String endpoint) {
         try {
             URI endpointUri = new URI(endpoint);
             s3 = S3Client.builder().endpointOverride(endpointUri).build();
@@ -29,10 +27,6 @@ public class S3ClientProvider {
     public static S3Client getS3Client() throws IllegalStateException {
         if (!configured) throw new IllegalStateException(NOT_CONFIGURED_ERROR);
         return s3;
-    }
-
-    public static String getBucketName() {
-        return bucketName;
     }
 
 }
