@@ -1,5 +1,8 @@
 package org.ezlibs.ezpics.processing.types;
 
+/**
+ * An aspect ratio.
+ */
 public class Ratio {
 
     private final float xRatio;
@@ -10,10 +13,18 @@ public class Ratio {
         this.yRatio = yRatio;
     }
 
+    /**
+     * Get the aspect ratio's horizontal (x) value.
+     * @return horizontal value as a float
+     */
     public float getRatioX() {
         return xRatio;
     }
 
+    /**
+     * Get the aspect ratio's vertical (y) value.
+     * @return vertical value as a float
+     */
     public float getRatioY() {
         return yRatio;
     }

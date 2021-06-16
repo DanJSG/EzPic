@@ -87,14 +87,16 @@ public class JPEGPresetImageProcessor implements PresetImageProcessor {
     }
 
     @Override
-    public BufferedImage cropImage(BufferedImage image, float xRatio, float yRatio) throws IllegalArgumentException {
+    public BufferedImage cropImage(BufferedImage image, float xRatio, float yRatio) {
         int width = image.getWidth();
         int height = image.getHeight();
         float aspectRatioQuotient = xRatio / yRatio;
         if (aspectRatioQuotient > 1 || (aspectRatioQuotient == 1 && width < height)) {
+            // if the aspect ratio is wide or square, alter the height but not the width
             int newHeight = (int)(width / aspectRatioQuotient);
             return cropImage(image, width, newHeight);
         } else {
+            // if the aspect ratio is tall, alter the width
             int newWidth = (int)(height * aspectRatioQuotient);
             return cropImage(image, newWidth, height);
         }

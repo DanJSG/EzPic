@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Constant definitions for the possible presets and their dimensions and aspect ratios.
+ */
 public class Presets {
 
     private static final String DEFAULT_KEY = "default";
@@ -56,6 +59,18 @@ public class Presets {
         PRESETS.put("default", DEFAULT);
     }
 
+    /**
+     * Get a preset based on the preset name. Valid preset names are:
+     * <ul>
+     *     <li>square</li>
+     *     <li>tall</li>
+     *     <li>wide</li>
+     *     <li>default</li>
+     * </ul>
+     *
+     * @param presetName the preset name to find
+     * @return the preset if found, {@code null} otherwise
+     */
     public static Preset getPreset(String presetName) {
         return PRESETS.containsKey(presetName) ? PRESETS.get(presetName) : PRESETS.get(DEFAULT_KEY);
     }
