@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Service for handling image processing, uploading, and downloading, as well as file type verification.
+ */
 public class ImageService {
 
     private static final List<String> VALID_EXTENSIONS = List.of("jpg", "jpeg", "png");
@@ -30,6 +33,15 @@ public class ImageService {
         return VALID_EXTENSIONS.stream().anyMatch(currentExtension -> currentExtension.equals(fileExtension));
     }
 
+    /**
+     * Process the image using the image processor according to a specified preset, then upload the image using the
+     * storage service.
+     *
+     * @param image the image to process and store
+     * @param presetName the name of the preset to use for the image processing
+     * @param bucketName the name of the bucket to upload the image to
+     * @return a list of filenames if successful, {@code null} otherwise
+     */
     public static List<String> storeImage(MultipartFile image, String presetName, String bucketName) {
         PresetImageProcessor imageProcessor = new JPEGPresetImageProcessor();
         BufferedImage bufferedImage = convertMultipartFileToBufferedImage(image);
@@ -44,19 +56,35 @@ public class ImageService {
         }
     }
 
+    /**
+     * Download an image from the storage service.
+     *
+     * @param filepath the images filepath
+     * @param bucketName the name of the bucket to download the file from
+     * @return a byte array representing the image
+     */
     public static byte[] getImage(String filepath, String bucketName) {
         StorageService storageService = new S3Service();
         return storageService.download(filepath, bucketName);
     }
 
+    /**
+     * Upload a list of images in the form of byte arrays.
+     *
+     * @param imageBytesList the list of byte arrays to upload
+     * @param dimensionsList the dimensions of each image
+     * @param bucketName the bucket to upload the image to
+     * @param contentType the MIME type of the image
+     * @return
+     */
     private static List<String> uploadImages(List<byte[]> imageBytesList, List<Dimensions> dimensionsList, String bucketName, String contentType) {
         StorageService storageService = new S3Service();
         UUID imageName = UUID.randomUUID();
         List<String> filenames = new ArrayList<>();
         String filename;
-        System.out.println(imageBytesList.size());
         for(int i = 0; i < imageBytesList.size(); i++) {
             byte[] imageBytes = imageBytesList.get(i);
+            // generate the file name
             if (dimensionsList != null) {
                 filename = imageName + "-" + dimensionsList.get(i).getLabel() + ".jpg";
             } else {
@@ -78,6 +106,15 @@ public class ImageService {
         }
     }
 
+    /**
+     * Get the preset specified by name. If no preset is specified, use a default which stores the uploaded image at
+     * full res with JPEG compression, along with 3 thumbnails at half, a quarter, and an eighth the size of the
+     * original.
+     *
+     * @param image the image
+     * @param name the preset name
+     * @return the preset specified by name, or the default
+     */
     private static Preset getPreset(BufferedImage image, String name) {
         if (name != null) return Presets.getPreset(name.toLowerCase());
         Dimensions originalDimensions = new Dimensions(image.getWidth(), image.getHeight(), "full");
@@ -90,6 +127,11 @@ public class ImageService {
         return new Preset(true, true, 0.75f, dimensionsList, aspectRatioList);
     }
 
+    /**
+     * Converts a MultipartFile to a BufferedImage without creating a file on disk
+     * @param image the MultipartFile to convert
+     * @return a BufferedImage if successful, {@code null} otherwise
+     */
     private static BufferedImage convertMultipartFileToBufferedImage(MultipartFile image) {
         try {
             InputStream inputStream = new ByteArrayInputStream(image.getBytes());
